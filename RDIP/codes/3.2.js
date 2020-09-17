@@ -28,8 +28,6 @@ function language(){
     else{
         corpus=hincorp;
     }
-division=document.getElementById("w_buttons");
-    division.innerHTML="";
     if(document.getElementById("lang").value=="english"){
         corpus=engcorp;
     }
@@ -40,20 +38,46 @@ division=document.getElementById("w_buttons");
     sentence=corpus[index][0];
     words=sentence.split(" ");
     console.log(words);
+ reform(words);
+}
+function reform(words){
+    division=document.getElementById("w_buttons");
+    division.innerHTML="";
+
     for(i=0;i<words.length;i++){
         ind=Math.floor(Math.random()*words.length);
         temp=words[ind];
         words[ind]=words[i];
         words[i]=temp;
     }
-    but=[]
+      but=[];
+    sentence="";
+
+    two_buttons=document.getElementById("c_buttons");
+    two_buttons.innerHTML="";
+
+    reform_button=document.createElement("input");
+    reform_button.type="button";
+    reform_button.value="Reform the sentence";
+    reform_button.style.display="inline";
+    document.getElementById("demo").innerHTML=sentence;
+
     for(i=0;i<words.length;i++){
         but[i]=document.createElement("input");
         but[i].type="button";
         but[i].value=words[i];
         but[i].style.display="inline";
         but[i].style.margin="0px 5px";
+         but[i].onclick=function(){
+            sentence+=this.value+" ";
+            document.getElementById("demo").innerHTML=sentence;
+            this.style.display="none";
+            two_buttons.appendChild(reform_button);
+            reform_button.onclick=function(){
+                reform(words);
+            };
+        };
+
         division.appendChild(but[i]);
     }
-    console.log(but);
 }
